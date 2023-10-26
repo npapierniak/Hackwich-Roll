@@ -18,11 +18,14 @@ struct ContentView: View {
             Image ("pips \(randomValue)")
                 .resizable()
                 .frame(width: 200, height: 200, alignment: .center)
+                .rotationEffect(.degrees(rotation))
+                .rotation3DEffect(.degrees(rotation), axis: (x: 1, y: 1, z: 0))
                 .padding()
                 .onTapGesture {
                     chooseRandom(times: 3)
-                   
-                    
+                    withAnimation(.interpolatingSpring(stiffness: 10, damping: 2)) {
+                        rotation += 360
+                    }
                 }
             Spacer()
         }
@@ -33,7 +36,6 @@ struct ContentView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 randomValue = Int.random(in: 1...6)
                 chooseRandom(times: times - 1)
-                
             }
         }
     }
